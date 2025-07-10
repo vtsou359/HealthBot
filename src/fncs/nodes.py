@@ -802,3 +802,60 @@ def end_conversation(state: HealthBotState) -> HealthBotState:
 
     return state
 
+
+######### ######### ######### ######### #########
+
+
+######### Create the workflow  using the nodes #########
+
+workflow = StateGraph(state_schema=HealthBotState)
+
+# Add nodes
+workflow.add_node("ask_health_topic", ask_health_topic)
+workflow.add_node("search_health_info", search_health_info)
+workflow.add_node("summarize_health_info", summarize_health_info)
+workflow.add_node("present_summary", present_summary)
+workflow.add_node("prompt_for_quiz", prompt_for_quiz)
+workflow.add_node("create_quiz_questions", create_quiz_questions)
+workflow.add_node("present_quiz_question", present_quiz_question)
+workflow.add_node("collect_quiz_answer", collect_quiz_answer)
+workflow.add_node("grade_quiz_answer", grade_quiz_answer)
+workflow.add_node("present_feedback", present_feedback)
+workflow.add_node("suggest_related_topics", suggest_related_topics)
+workflow.add_node("ask_next_action", ask_next_action)
+workflow.add_node("end_conversation", end_conversation)
+workflow.add_node("router", router)
+
+# Add edges
+workflow.add_edge(START, "ask_health_topic")
+workflow.add_edge("ask_health_topic", "search_health_info")
+workflow.add_edge("search_health_info", "summarize_health_info")
+workflow.add_edge("summarize_health_info", "present_summary")
+workflow.add_edge("present_summary", "prompt_for_quiz")
+workflow.add_edge("prompt_for_quiz", "create_quiz_questions")
+workflow.add_edge("create_quiz_questions", "present_quiz_question")
+workflow.add_edge("present_quiz_question", "collect_quiz_answer")
+workflow.add_edge("collect_quiz_answer", "grade_quiz_answer")
+workflow.add_edge("grade_quiz_answer", "present_feedback")
+workflow.add_edge("present_feedback", "router")
+workflow.add_edge("suggest_related_topics", "ask_next_action")
+workflow.add_edge("ask_next_action", "router")
+
+# Add conditional edges
+workflow.add_conditional_edges(
+    "router",
+    {
+        "ask_health_topic": lambda state: state.get("next_action") == "new_topic",
+        "suggest_related_topics": lambda state: state.get("quiz_ready") is False,
+        "present_quiz_question": lambda state: state.get("quiz_ready") and state.get("current_question_index", 0) < state.get("num_questions", 1),
+        "end_conversation": lambda state: state.get("next_action") == "exit",
+    }
+)
+
+workflow.add_edge("end_conversation", END)
+
+# Compile the workflow
+graph = workflow.compile()
+
+
+######### ######### ######### ######### #########
