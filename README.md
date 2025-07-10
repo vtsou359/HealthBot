@@ -10,6 +10,8 @@ HealthBot is an AI-powered chatbot designed to provide personalized, on-demand h
 - **Difficulty Settings**: Choose between easy, medium, or hard levels of detail
 - **Multiple Quiz Questions**: Select how many questions you want in your quiz
 - **Related Topics**: Discover related health topics based on your interests
+- **Interactive Learning Flow**: Guided learning experience with feedback
+- **Multi-Interface Support**: Use via web interface or terminal
 
 ## Requirements
 
@@ -28,6 +30,11 @@ HealthBot is an AI-powered chatbot designed to provide personalized, on-demand h
 2. Install the required packages:
    ```
    pip install -r requirements.txt
+   ```
+
+   Alternatively, you can use the project's dependencies from pyproject.toml:
+   ```
+   pip install .
    ```
 
 3. Create a `.env` file in the project root with your API keys:
@@ -52,18 +59,24 @@ This will start a local web server with the HealthBot interface. You can:
 - Choose how many quiz questions you want
 - Take quizzes to test your understanding
 - Explore related health topics
+- Continue learning about related topics or start a new conversation
 
 ### Terminal Interface
 
-You can also run HealthBot in the terminal. Open the `src/healthbot.py` file and uncomment the last line to use the terminal interface:
+You can also run HealthBot in the terminal by modifying the `src/healthbot.py` file:
 
 ```python
 if __name__ == "__main__":
     # Launch the Gradio interface
     # demo.launch()
-    
+
     # Run the terminal version
     run_healthbot()
+```
+
+Then run:
+```
+python src/healthbot.py
 ```
 
 ## How It Works
@@ -81,7 +94,22 @@ HealthBot uses LangGraph to create a workflow with the following steps:
 
 ## Project Structure
 
-- `src/healthbot.py`: Main implementation of the HealthBot using LangGraph
+- `src/`: Source code directory
+  - `healthbot.py`: Main implementation with Gradio interface and terminal mode
+  - `fncs/`: Helper functions directory
+    - `nodes.py`: Implementation of LangGraph workflow nodes
 - `requirements.txt`: Required Python packages
+- `pyproject.toml`: Project configuration and dependencies
 - `.env`: Environment variables for API keys
 - `experimental_ntbks/`: Example notebooks for reference
+- `sample.ipynb`: Sample notebook demonstrating usage
+
+## Technical Details
+
+HealthBot is built using:
+- **LangChain**: Framework for building applications with LLMs
+- **LangGraph**: For creating the conversational workflow
+- **OpenAI**: For generating responses and processing natural language
+- **Tavily**: For searching reputable health information
+- **Gradio**: For creating the web interface
+
