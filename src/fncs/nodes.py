@@ -802,11 +802,3 @@ def end_conversation(state: HealthBotState) -> HealthBotState:
 
     return state
 
-
-######### ######### ######### ######### #########
-
-
-######### Create the workflow as a function by using the node functions and the router function. #########
-
-
-######### ######### ######### ######### #########
