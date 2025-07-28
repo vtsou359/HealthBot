@@ -470,13 +470,13 @@ def grade_quiz_answer(state: HealthBotState) -> HealthBotState:
     Information from the summary:
     {summary}
 
-    Provide a grade 'Pass' or 'Fail' and detailed feedback explaining why the answer received that grade.
+    Provide a grade (A, B, C, etc) and detailed feedback explaining why the answer received that grade.
     Include specific information from the summary that supports or contradicts the patient's answer.
     Be encouraging and educational in your feedback.
 
     Format your response as markdown text:
-    - Grade: [text values of 'Pass' or 'Fail' only]
-    - Feedback: [detailed feedback with citations from the summary. The text should be in markdown bullets and always nested under the bullet Feedback.]
+    - Grade: [text values of 'A', 'B', 'C', 'D' etc.]
+    - Feedback: [detailed feedback with citations from the summary. The text should be in markdown bullets and always nested under the bullet Feedback. Do not forget to provide a justification of why you gave the specific grade.]
     """
 
     # Generate the grade and feedback
@@ -571,7 +571,7 @@ def present_feedback(state: HealthBotState) -> HealthBotState:
                 summary += f"{grade_str}\n\n"
 
         # Add a final summary line
-        summary += f"You've completed all {num_questions} questions! Thank you for testing your knowledge."
+        summary += f"You've completed all questions! Thank you for testing your knowledge. (Total number of questions: {num_questions})"
 
         # Add the summary to the conversation
         state["messages"].append({
