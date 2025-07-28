@@ -32,11 +32,6 @@ HealthBot is an AI-powered chatbot designed to provide personalized, on-demand h
    pip install -r requirements.txt
    ```
 
-   Alternatively, you can use the project's dependencies from pyproject.toml:
-   ```
-   pip install .
-   ```
-
 3. Create a `.env` file in the project root with your API keys:
    ```
    OPENAI_API_KEY="your_openai_api_key"
@@ -50,7 +45,7 @@ HealthBot is an AI-powered chatbot designed to provide personalized, on-demand h
 Run the Gradio web interface:
 
 ```
-python src/healthbot.py
+python -m src.healthbot
 ```
 
 This will start a local web server with the HealthBot interface. You can:
